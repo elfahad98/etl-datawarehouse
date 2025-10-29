@@ -1,9 +1,16 @@
 # Projet ETL – Data Warehouse (Apache Hop + SQLite)
 
----
-## Objectif du projet
+##  Objectif du projet
+Concevoir un **entrepôt de données** (Data Warehouse) et mettre en place les **processus ETL** pour
+une application de ventes de prestations informatiques. Les données brutes (clients, prestations, ventes,
+géographie, dates) sont intégrées dans un **modèle en étoile** via des **pipelines Apache Hop** et chargées
+dans une base **SQLite**.
 
-L’objectif est de **concevoir un entrepôt de données (data warehouse)** et de mettre en place les **processus d’ETL** pour une application de ventes de prestations informatiques.Les données brutes sont fournies (clients, prestations, ventes, géographie, dates) et doivent être intégrées dans un **modèle en étoile** via des **pipelines Apache Hop**.
+---
+
+##  Contenu du dépôt
+
+Ce dépôt regroupe l’ensemble du projet ETL (Extraction, Transformation, Loading) réalisé avec **Apache Hop**.
 
 
 ### Structure du projet
@@ -38,35 +45,29 @@ etl-datawarehouse/
 └─ README.md
 ```
 
----
-
-##  Description du projet
-
-Ce projet implémente un **mini Data Warehouse** alimenté via des pipelines **Apache Hop**.  
-L’objectif est de construire un schéma en **étoile** à partir de données brutes opérationnelles et de les charger dans une base SQLite.
-
-Le projet comprend :
-- la **modélisation dimensionnelle** du data warehouse (modèle en étoile)  
-- la **création du schéma SQL** (`create_dw.sql`)  
-- la **configuration des connexions** dans Apache Hop  
-- et la **construction de 5 pipelines ETL** pour alimenter les tables de dimensions et la table de faits.
 
 ---
+
+##  Variables d’environnement (Hop)
+
+Fichier d’exemple : `env/tp_env_etl.example.json`
+
+| Variable           | Description                                   | Exemple                         |
+|-------------------|-----------------------------------------------|---------------------------------|
+| `data_dir`        | Dossier des données                            | `${PROJECT_HOME}/data`          |
+| `output_dir`      | Dossier de sortie des erreurs                  | `${PROJECT_HOME}/outputs`       |
+| `dw_db`           | Chemin du DW SQLite                            | `${data_dir}/dw_etl_combo.db`   |
+| `dates_file`      | CSV des dates                                  | `${data_dir}/dates.csv`         |
+| `geo_file`        | CSV des géographies                            | `${data_dir}/geography.csv`     |
+| `prestations_file`| CSV des prestations                             | `${data_dir}/prestations.csv`   |
 
 **Connexions Hop :**
 - `OP_SQLite` → base opérationnelle (`operational_data.db`)
 - `DW_SQLite` → entrepôt de données (`dw_etl_combo.db`)
 
----
-
 
 > Chaque pipeline se base sur les variables d’environnement définies dans Hop.  
 > Les sorties d’erreurs sont exportées dans le dossier `OUTPUTS/`.
-
-
----
-
-
 
 ---
 
