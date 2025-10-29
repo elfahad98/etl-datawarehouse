@@ -70,7 +70,7 @@ Le projet comprend :
 
 ---
 
-## 📊 Pipelines ETL – Visualisation
+## Pipelines ETL – Visualisation
 
 | Étape | Capture | Description |
 |-------|----------|-------------|
@@ -81,4 +81,15 @@ Le projet comprend :
 | Faits Ventes | ![load_fact_ventes](docs/screenshots/load_fact_ventes.png) | Intégration finale avec jointures et calculs dérivés |
 
 ---
+
+## 👤 Auteur
+
+Projet réalisé par **COMBO El-Fahad** – Université de Caen (2025).  
+Contact : `el-fahad.combo@etu.unicaen.fr`
+
+---
+
+## 📄 Licence
+
+Ce projet est sous licence **MIT**. Voir le fichier `LICENSE`.
 
