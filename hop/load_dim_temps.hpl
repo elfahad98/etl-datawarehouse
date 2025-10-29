@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pipeline>
+  <info>
+    <name>load_dim_temps</name>
+    <name_sync_with_filename>Y</name_sync_with_filename>
+    <description/>
+    <extended_description/>
+    <pipeline_version/>
+    <pipeline_type>Normal</pipeline_type>
+    <parameters>
+    </parameters>
+    <capture_transform_performance>N</capture_transform_performance>
+    <transform_performance_capturing_delay>1000</transform_performance_capturing_delay>
+    <transform_performance_capturing_size_limit>100</transform_performance_capturing_size_limit>
+    <created_user>-</created_user>
+    <created_date>2025/10/11 23:16:09.105</created_date>
+    <modified_user>-</modified_user>
+    <modified_date>2025/10/11 23:16:09.105</modified_date>
+  </info>
+  <notepads>
+  </notepads>
+  <order>
+    <hop>
+      <from>Read dates.csv</from>
+      <to>Select values (dates ) </to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values (dates ) </from>
+      <to>Compute Flags</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Compute Flags</from>
+      <to>Rmv duplicates (datetime)</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Rmv duplicates (datetime)</from>
+      <to>Table output</to>
+      <enabled>Y</enabled>
+    </hop>
+  </order>
+  <transform>
+    <name>Compute Flags</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>
+      <jsScript>
+        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>// Extraire la parti date de la clé datetime
+date_only = datetime_key.substring(0, 10);
+
+//est_weekend : samedi (6) ou dimanche (7)
+if (jour_semaine == 6 || jour_semaine == 7) {
+  est_weekend = 1;
+} else {
+  est_weekend = 0;
+}
+
+//est_dejeuner_fin : entre 12h00 et 14h00
+if (heure >= 12 &amp;&amp; heure &lt; 14) {
+  est_dejeuner_fin = 1;
+} else {
+  est_dejeuner_fin = 0;
+}
+</jsScript_script>
+      </jsScript>
+    </jsScripts>
+    <fields>
+      <field>
+        <name>date_only</name>
+        <rename>date_only</rename>
+        <type>String</type>
+        <length>10</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>est_weekend</name>
+        <rename>est_weekend</rename>
+        <type>Integer</type>
+        <length>1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+      <field>
+        <name>est_dejeuner_fin</name>
+        <rename>est_dejeuner_fin</rename>
+        <type>Integer</type>
+        <length>1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>432</xloc>
+      <yloc>144</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Read dates.csv</name>
+    <type>CSVInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <filename>${data_dir}/dates.csv</filename>
+    <filename_field/>
+    <rownum_field/>
+    <include_filename>N</include_filename>
+    <separator>,</separator>
+    <enclosure>"</enclosure>
+    <header>Y</header>
+    <buffer_size>50000</buffer_size>
+    <schemaDefinition/>
+    <lazy_conversion>Y</lazy_conversion>
+    <add_filename_result>N</add_filename_result>
+    <parallel>N</parallel>
+    <newline_possible>N</newline_possible>
+    <encoding>UTF-8</encoding>
+    <fields>
+      <field>
+        <name>datetime</name>
+        <type>String</type>
+        <format/>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group> </group>
+        <length>16</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>année</name>
+        <type>Integer</type>
+        <format>#</format>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group> </group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>trimestre</name>
+        <type>Integer</type>
+        <format>#</format>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group> </group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>mois</name>
+        <type>Integer</type>
+        <format>#</format>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group> </group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>nom du mois</name>
+        <type>String</type>
+        <format/>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group> </group>
+        <length>7</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>jour du mois</name>
+        <type>Integer</type>
+        <format>#</format>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group> </group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>nom du jour de la semaine</name>
+        <type>String</type>
+        <format/>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group> </group>
+        <length>5</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>numéro du jour dans la semaine</name>
+        <type>Integer</type>
+        <format>#</format>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group> </group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>heure</name>
+        <type>Integer</type>
+        <format>#</format>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group> </group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>minute</name>
+        <type>Integer</type>
+        <format>#</format>
+        <currency>$</currency>
+        <decimal>,</decimal>
+        <group> </group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>96</xloc>
+      <yloc>288</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Select values (dates ) </name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <length>-2</length>
+        <name>datetime</name>
+        <precision>-2</precision>
+        <rename>datetime_key</rename>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>année</name>
+        <precision>-2</precision>
+        <rename>annee</rename>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>trimestre</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>mois</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>jour du mois</name>
+        <precision>-2</precision>
+        <rename>jour</rename>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>numéro du jour dans la semaine</name>
+        <precision>-2</precision>
+        <rename>jour_semaine</rename>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>heure</name>
+        <precision>-2</precision>
+        <rename>heure</rename>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>minute</name>
+        <precision>-2</precision>
+        <rename>minute</rename>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>272</xloc>
+      <yloc>208</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Table output</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <commit>5000</commit>
+    <connection>DW_SQLite</connection>
+    <fields>
+      <field>
+        <column_name>datetime_key</column_name>
+        <stream_name>datetime_key</stream_name>
+      </field>
+      <field>
+        <column_name>annee</column_name>
+        <stream_name>annee</stream_name>
+      </field>
+      <field>
+        <column_name>trimestre</column_name>
+        <stream_name>trimestre</stream_name>
+      </field>
+      <field>
+        <column_name>mois</column_name>
+        <stream_name>mois</stream_name>
+      </field>
+      <field>
+        <column_name>jour</column_name>
+        <stream_name>jour</stream_name>
+      </field>
+      <field>
+        <column_name>jour_semaine</column_name>
+        <stream_name>jour_semaine</stream_name>
+      </field>
+      <field>
+        <column_name>heure</column_name>
+        <stream_name>heure</stream_name>
+      </field>
+      <field>
+        <column_name>minute</column_name>
+        <stream_name>minute</stream_name>
+      </field>
+      <field>
+        <column_name>date_only</column_name>
+        <stream_name>date_only</stream_name>
+      </field>
+      <field>
+        <column_name>est_weekend</column_name>
+        <stream_name>est_weekend</stream_name>
+      </field>
+      <field>
+        <column_name>est_dejeuner_fin</column_name>
+        <stream_name>est_dejeuner_fin</stream_name>
+      </field>
+    </fields>
+    <ignore_errors>N</ignore_errors>
+    <only_when_have_rows>N</only_when_have_rows>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <return_keys>N</return_keys>
+    <specify_fields>Y</specify_fields>
+    <table>dim_temps</table>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_in_table>Y</tablename_in_table>
+    <truncate>Y</truncate>
+    <use_batch>Y</use_batch>
+    <attributes/>
+    <GUI>
+      <xloc>720</xloc>
+      <yloc>304</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>Rmv duplicates (datetime)</name>
+    <type>UniqueRowsByHashSet</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <store_values>Y</store_values>
+    <reject_duplicate_row>N</reject_duplicate_row>
+    <error_description/>
+    <fields>
+      <field>
+        <name>datetime_key</name>
+      </field>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>560</xloc>
+      <yloc>208</yloc>
+    </GUI>
+  </transform>
+  <transform_error_handling>
+  </transform_error_handling>
+  <attributes/>
+</pipeline>
