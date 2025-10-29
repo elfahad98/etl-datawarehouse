@@ -1,0 +1,27 @@
+{
+  "variables" : [ {
+    "name" : "data_dir",
+    "value" : "C:\\Users\\El-fahad COMBO\\Desktop\\cours univ\\M2\\Semestre 1\\Base et fouille de données\\part 2\\TP_ETL_COMBO\\DATA",
+    "description" : ""
+  }, {
+    "name" : "output_dir",
+    "value" : "C:\\Users\\El-fahad COMBO\\Desktop\\cours univ\\M2\\Semestre 1\\Base et fouille de données\\part 2\\TP_ETL_COMBO\\OUTPUTS",
+    "description" : ""
+  }, {
+    "name" : "dw_db",
+    "value" : "${data_dir}/dw_etl_combo.db",
+    "description" : ""
+  }, {
+    "name" : "geo_file",
+    "value" : "${data_dir}/geography.csv",
+    "description" : ""
+  }, {
+    "name" : "dates_file",
+    "value" : "${data_dir}/dates.csv",
+    "description" : ""
+  }, {
+    "name" : "prestations_file",
+    "value" : "${data_dir}/prestations.csv",
+    "description" : ""
+  } ]
+}
