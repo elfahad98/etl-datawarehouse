@@ -1,8 +1,7 @@
--- create_dw.sql  (version “tout-en-un”)
 PRAGMA foreign_keys = ON;
 BEGIN TRANSACTION;
 
--- ====== Dimensions ======
+-- ====== Dim ======
 CREATE TABLE IF NOT EXISTS dim_temps (
   datetime_key     TEXT PRIMARY KEY,
   date_only        TEXT NOT NULL,
@@ -14,14 +13,12 @@ CREATE TABLE IF NOT EXISTS dim_temps (
   minute           INTEGER NOT NULL CHECK (minute BETWEEN 0 AND 59),
   jour_semaine     INTEGER,
   est_weekend      INTEGER NOT NULL DEFAULT 0 CHECK (est_weekend IN (0,1)),
-  est_dejeuner_fin INTEGER NOT NULL DEFAULT 0 CHECK (est_dejeuner_fin IN (0,1))
-);
+  est_dejeuner_fin INTEGER NOT NULL DEFAULT 0 CHECK (est_dejeuner_fin IN (0,1)));
 
 CREATE TABLE IF NOT EXISTS dim_prestation (
   code_prestation  TEXT PRIMARY KEY,
   libelle          TEXT NOT NULL,
-  categorie        TEXT NOT NULL CHECK (categorie IN ('Depannage','Installation'))
-);
+  categorie        TEXT NOT NULL CHECK (categorie IN ('Depannage','Installation')));
 
 CREATE TABLE IF NOT EXISTS dim_geo_intervention (
   geo_intervention_sk INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -29,8 +26,7 @@ CREATE TABLE IF NOT EXISTS dim_geo_intervention (
   ville               TEXT NOT NULL,
   departement         TEXT,
   region              TEXT,
-  UNIQUE (code_postal, ville)
-);
+  UNIQUE (code_postal, ville));
 
 CREATE TABLE IF NOT EXISTS dim_client (
   client_sk       INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -43,18 +39,16 @@ CREATE TABLE IF NOT EXISTS dim_client (
   departement     TEXT,
   region          TEXT,
   -- SCD2 : pour le chargement initial on laisse NULL
-  effective_from  TEXT,              -- << plus NOT NULL
+  effective_from  TEXT,            
   effective_to    TEXT,
   is_current      INTEGER NOT NULL DEFAULT 1 CHECK (is_current IN (0,1)),
-  -- Traçabilité ETL (ajoutées)
+  -- Traçabilité ETL
   src_system      TEXT,
   etl_batch_id    TEXT,
   etl_load_ts     TEXT DEFAULT (datetime('now')),
-  UNIQUE (num_client, effective_from)
-);
+  UNIQUE (num_client, effective_from));
 
 
--- index utile pour retrouver la version courante (SCD2)
 CREATE INDEX IF NOT EXISTS ix_dim_client_nat_current
   ON dim_client(num_client) WHERE is_current = 1;
 
@@ -84,3 +78,4 @@ CREATE INDEX IF NOT EXISTS ix_fact_prest  ON fact_ventes(code_prestation);
 CREATE INDEX IF NOT EXISTS ix_fact_geo    ON fact_ventes(geo_intervention_sk);
 
 COMMIT;
+
