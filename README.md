@@ -3,13 +3,8 @@
 ---
 ## Objectif du projet
 
-L’objectif est de **concevoir un entrepôt de données (data warehouse)** et de mettre en place les **processus d’ETL** pour une application de ventes de prestations informatiques.  
-Les données brutes sont fournies (clients, prestations, ventes, géographie, dates) et doivent être intégrées dans un **modèle en étoile** via des **pipelines Apache Hop**.
+L’objectif est de **concevoir un entrepôt de données (data warehouse)** et de mettre en place les **processus d’ETL** pour une application de ventes de prestations informatiques.Les données brutes sont fournies (clients, prestations, ventes, géographie, dates) et doivent être intégrées dans un **modèle en étoile** via des **pipelines Apache Hop**.
 
-
-##  Contenu du dépôt
-
-Ce dépôt contient l’ensemble du projet ETL (Extraction, Transformation, Loading) et Data Warehouse réalisé sous **Apache Hop** avec base **SQLite**.
 
 ### Structure du projet
 
