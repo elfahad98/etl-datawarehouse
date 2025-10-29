@@ -1,0 +1,38 @@
+# =========================
+#  .gitignore – ETL Project
+# =========================
+
+# OS / IDE files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Données lourdes ou confidentielles
+*.db
+*.sqlite
+*.parquet
+*.zip
+*.7z
+*.gz
+*.bak
+*.tmp
+
+# Données brutes et outputs
+DATA/
+data/raw/
+OUTPUTS/
+outputs/
+
+# Garder uniquement les petits échantillons
+!data/sample/**
+
+# Fichiers d'environnement
+.env
+env/*.json
+!env/tp_env_etl.example.json
+
+# Logs, caches, temporaires
+*.log
+*.tmp
+__pycache__/
