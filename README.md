@@ -1,6 +1,11 @@
 # Projet ETL – Data Warehouse (Apache Hop + SQLite)
 
 ---
+## Objectif du projet
+
+L’objectif est de **concevoir un entrepôt de données (data warehouse)** et de mettre en place les **processus d’ETL** pour une application de ventes de prestations informatiques.  
+Les données brutes sont fournies (clients, prestations, ventes, géographie, dates) et doivent être intégrées dans un **modèle en étoile** via des **pipelines Apache Hop**.
+
 
 ##  Contenu du dépôt
 
